@@ -4,12 +4,13 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
 
 import com.hhz.spring.db.annotation.Read;
 import com.hhz.spring.db.datasource.ConnectionType;
 import com.hhz.spring.db.datasource.ConnectionTypeHolder;
 
-public class ReadMethodInterceptor implements MethodInterceptor {
+public class ReadMethodInterceptor implements MethodInterceptor, Ordered {
 	protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	@Override
@@ -35,5 +36,10 @@ public class ReadMethodInterceptor implements MethodInterceptor {
 		} else {
 			return invocation.proceed();
 		}
+	}
+
+	@Override
+	public int getOrder() {
+		return Ordered.HIGHEST_PRECEDENCE;
 	}
 }
